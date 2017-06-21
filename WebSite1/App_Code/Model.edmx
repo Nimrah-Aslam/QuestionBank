@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="QBANKModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="FIB">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fid" Type="int" Nullable="false" />
+          <Property Name="Answer" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MCQopt">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Oid" Type="int" Nullable="false" />
+          <Property Name="opt" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="correct" Type="bit" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ques" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__FIB__Fid__15502E78">
+          <End Role="Question" Type="Self.Question" Multiplicity="1" />
+          <End Role="FIB" Type="Self.FIB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="FIB">
+              <PropertyRef Name="Fid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MCQopt__Oid__1273C1CD">
+          <End Role="Question" Type="Self.Question" Multiplicity="1" />
+          <End Role="MCQopt" Type="Self.MCQopt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MCQopt">
+              <PropertyRef Name="Oid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QBANKModelStoreContainer">
+          <EntitySet Name="FIB" EntityType="Self.FIB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MCQopt" EntityType="Self.MCQopt" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__FIB__Fid__15502E78" Association="Self.FK__FIB__Fid__15502E78">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="FIB" EntitySet="FIB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MCQopt__Oid__1273C1CD" Association="Self.FK__MCQopt__Oid__1273C1CD">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="MCQopt" EntitySet="MCQopt" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="QBANKModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="FIB">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fid" Type="Int32" Nullable="false" />
+          <Property Name="Answer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Question" Relationship="Self.FK__FIB__Fid__15502E78" FromRole="FIB" ToRole="Question" />
+        </EntityType>
+        <EntityType Name="MCQopt">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Oid" Type="Int32" Nullable="false" />
+          <Property Name="opt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="correct" Type="Boolean" />
+          <NavigationProperty Name="Question" Relationship="Self.FK__MCQopt__Oid__1273C1CD" FromRole="MCQopt" ToRole="Question" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ques" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="FIBs" Relationship="Self.FK__FIB__Fid__15502E78" FromRole="Question" ToRole="FIB" />
+          <NavigationProperty Name="MCQopts" Relationship="Self.FK__MCQopt__Oid__1273C1CD" FromRole="Question" ToRole="MCQopt" />
+        </EntityType>
+        <Association Name="FK__FIB__Fid__15502E78">
+          <End Role="Question" Type="Self.Question" Multiplicity="1" />
+          <End Role="FIB" Type="Self.FIB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="FIB">
+              <PropertyRef Name="Fid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MCQopt__Oid__1273C1CD">
+          <End Role="Question" Type="Self.Question" Multiplicity="1" />
+          <End Role="MCQopt" Type="Self.MCQopt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MCQopt">
+              <PropertyRef Name="Oid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QBANKEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="FIBs" EntityType="Self.FIB" />
+          <EntitySet Name="MCQopts" EntityType="Self.MCQopt" />
+          <EntitySet Name="Questions" EntityType="Self.Question" />
+          <AssociationSet Name="FK__FIB__Fid__15502E78" Association="Self.FK__FIB__Fid__15502E78">
+            <End Role="Question" EntitySet="Questions" />
+            <End Role="FIB" EntitySet="FIBs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MCQopt__Oid__1273C1CD" Association="Self.FK__MCQopt__Oid__1273C1CD">
+            <End Role="Question" EntitySet="Questions" />
+            <End Role="MCQopt" EntitySet="MCQopts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="QBANKModelStoreContainer" CdmEntityContainer="QBANKEntities">
+          <EntitySetMapping Name="FIBs">
+            <EntityTypeMapping TypeName="QBANKModel.FIB">
+              <MappingFragment StoreEntitySet="FIB">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Fid" ColumnName="Fid" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MCQopts">
+            <EntityTypeMapping TypeName="QBANKModel.MCQopt">
+              <MappingFragment StoreEntitySet="MCQopt">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Oid" ColumnName="Oid" />
+                <ScalarProperty Name="opt" ColumnName="opt" />
+                <ScalarProperty Name="correct" ColumnName="correct" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Questions">
+            <EntityTypeMapping TypeName="QBANKModel.Question">
+              <MappingFragment StoreEntitySet="Question">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ques" ColumnName="ques" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
